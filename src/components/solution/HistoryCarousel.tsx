@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { gsap } from '../../styles/animations';
 import ProjectCard from './ProjectCard';
 
 const CarouselOuter = styled.div`
@@ -13,11 +12,22 @@ const CarouselTrack = styled.div`
   display: flex;
   gap: 24px;
   padding: 8px 0 40px;
-  will-change: transform;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 
   @media (max-width: 768px) {
     gap: 16px;
     padding: 8px 0 24px;
+    animation-duration: 20s;
   }
 `;
 
@@ -61,39 +71,21 @@ const projects = [
 ];
 
 export default function HistoryCarousel() {
-  const outerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!outerRef.current || !trackRef.current) return;
-
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-    // On mobile, just allow native horizontal scroll
-    if (isMobile) return;
-
+    // Duplicate cards for seamless loop
+    if (!trackRef.current) return;
     const track = trackRef.current;
-
-    const ctx = gsap.context(() => {
-      gsap.to(track, {
-        x: () => -(track.scrollWidth - outerRef.current!.offsetWidth + 80),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: outerRef.current,
-          start: 'top top',
-          end: () => `+=${track.scrollWidth - outerRef.current!.offsetWidth}`,
-          pin: true,
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-    }, outerRef);
-
-    return () => ctx.revert();
+    const children = Array.from(track.children);
+    children.forEach((child) => {
+      const clone = child.cloneNode(true) as HTMLElement;
+      track.appendChild(clone);
+    });
   }, []);
 
   return (
-    <CarouselOuter ref={outerRef}>
+    <CarouselOuter>
       <CarouselTrack ref={trackRef}>
         {projects.map((p, i) => (
           <ProjectCard key={p.title} {...p} index={i} />
