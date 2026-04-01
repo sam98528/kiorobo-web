@@ -2,11 +2,15 @@ import { useEffect, useRef, Suspense } from 'react';
 import styled from 'styled-components';
 import { ShaderGradientCanvas, ShaderGradient } from 'shadergradient';
 import { gsap } from '../../styles/animations';
-import { Button, ScrollIndicator } from '../common';
+import { Button } from '../common';
+
+interface HeroSectionProps {
+  onNavigate: (page: string) => void;
+}
 
 const HeroWrapper = styled.section`
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   position: relative;
@@ -201,26 +205,12 @@ const KioskBaseDot = styled.div`
   background: rgba(0,0,0,0.08);
 `;
 
-const ScrollArea = styled.div`
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  z-index: 1;
-
-  ${({ theme }) => theme.media.md} {
-    bottom: 16px;
-  }
-`;
-
-export default function HeroSection() {
+export default function HeroSection({ onNavigate }: HeroSectionProps) {
   const wrapperRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const kioskRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!wrapperRef.current) return;
@@ -272,11 +262,7 @@ export default function HeroSection() {
           { y: 30, scale: 0.97 },
           { y: 0, scale: 1, duration: 0.8, ease: 'power2.out' },
           '<'
-        )
-        .to(scrollRef.current, {
-          opacity: 1,
-          duration: 0.5,
-        }, '-=0.2');
+        );
 
       // Kiosk subtle float
       gsap.to(kioskRef.current, {
@@ -287,63 +273,6 @@ export default function HeroSection() {
         yoyo: true,
       });
 
-      // Scroll-out parallax: title fades out + moves up, kiosk scales down
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-      if (!isMobile) {
-        gsap.to(titleRef.current, {
-          y: -50,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-
-        gsap.to(subRef.current, {
-          y: -30,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: 'top top',
-            end: '80% top',
-            scrub: true,
-          },
-        });
-
-        gsap.to(ctaRef.current, {
-          y: -20,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: 'top top',
-            end: '70% top',
-            scrub: true,
-          },
-        });
-
-        gsap.to(kioskRef.current, {
-          scale: 0.92,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-
-        gsap.to(scrollRef.current, {
-          opacity: 0,
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: '10% top',
-            end: '30% top',
-            scrub: true,
-          },
-        });
-      }
     }, wrapperRef);
 
     return () => ctx.revert();
@@ -374,14 +303,10 @@ export default function HeroSection() {
             하드웨어와 소프트웨어를 잇는 키오스크 기반 엔터테크 자동화 기업, KIOROBO
           </HeroSub>
           <HeroCTA ref={ctaRef}>
-            <Button variant="primary" onClick={() => {
-              document.getElementById('solution')?.scrollIntoView({ behavior: 'smooth' });
-            }}>
+            <Button variant="primary" onClick={() => onNavigate('solution')}>
               솔루션 알아보기
             </Button>
-            <Button variant="text" onClick={() => {
-              document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
-            }}>
+            <Button variant="text" onClick={() => onNavigate('portfolio')}>
               포트폴리오 <span>&rarr;</span>
             </Button>
           </HeroCTA>
@@ -408,10 +333,6 @@ export default function HeroSection() {
           </KioskCard>
         </HeroRight>
       </HeroInner>
-
-      <ScrollArea ref={scrollRef}>
-        <ScrollIndicator />
-      </ScrollArea>
     </HeroWrapper>
   );
 }

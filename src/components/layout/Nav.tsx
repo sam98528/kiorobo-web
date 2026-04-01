@@ -2,6 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '../common';
 
+interface NavProps {
+  activePage: string;
+  onNavigate: (page: string) => void;
+}
+
 const NavWrapper = styled.nav<{ $scrolled: boolean }>`
   position: fixed;
   top: 16px;
@@ -48,13 +53,30 @@ const NavLinks = styled.div`
   }
 `;
 
-const NavLink = styled.a`
+const NavLink = styled.button<{ $active: boolean }>`
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 450;
-  color: rgba(0,0,0,0.55);
+  color: ${({ $active }) => $active ? 'rgba(0,0,0,0.88)' : 'rgba(0,0,0,0.55)'};
   cursor: pointer;
   transition: color 0.2s ease;
+  position: relative;
+  padding: 4px 0;
+  background: none;
+  border: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #18181B;
+    transform: scaleX(${({ $active }) => $active ? 1 : 0});
+    transition: transform 0.2s ease;
+  }
+
   &:hover {
     color: rgba(0,0,0,0.88);
   }
@@ -165,14 +187,17 @@ const MobileOverlay = styled.div<{ $open: boolean }>`
   }
 `;
 
-const MobileLink = styled.a`
+const MobileLink = styled.button<{ $active: boolean }>`
   font-family: 'DM Sans', sans-serif;
   font-size: 28px;
   font-weight: 700;
-  color: rgba(0,0,0,0.8);
+  color: ${({ $active }) => $active ? 'rgba(0,0,0,0.9)' : 'rgba(0,0,0,0.8)'};
   padding: 16px 0;
   cursor: pointer;
+  border: none;
   border-bottom: 1px solid rgba(0,0,0,0.05);
+  background: none;
+  text-align: left;
   transition: color 0.2s ease;
 
   &:hover {
@@ -187,14 +212,14 @@ const MobileBottom = styled.div`
   gap: 16px;
 `;
 
-function scrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' });
-  }
-}
+const NAV_ITEMS = [
+  { label: 'Sface', page: 'sface' },
+  { label: 'Solution', page: 'solution' },
+  { label: 'Hardware', page: 'hardware' },
+  { label: 'Portfolio', page: 'portfolio' },
+] as const;
 
-export default function Nav() {
+export default function Nav({ activePage, onNavigate }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -216,26 +241,31 @@ export default function Nav() {
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
-  const handleMobileNav = (id: string) => {
+  const handleMobileNav = (page: string) => {
     setMobileOpen(false);
-    setTimeout(() => scrollTo(id), 300);
+    setTimeout(() => onNavigate(page), 300);
   };
 
   return (
     <>
       <NavWrapper ref={navRef} $scrolled={scrolled}>
-        <Logo href="#" onClick={() => { setMobileOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+        <Logo onClick={() => { setMobileOpen(false); onNavigate('home'); }}>
           KIOROBO
         </Logo>
         <NavLinks>
-          <NavLink onClick={() => scrollTo('ecosystem')}>Sface</NavLink>
-          <NavLink onClick={() => scrollTo('solution')}>Solution</NavLink>
-          <NavLink onClick={() => scrollTo('hardware')}>Hardware</NavLink>
-          <NavLink onClick={() => scrollTo('portfolio')}>Portfolio</NavLink>
+          {NAV_ITEMS.map(({ label, page }) => (
+            <NavLink
+              key={page}
+              $active={activePage === page}
+              onClick={() => onNavigate(page)}
+            >
+              {label}
+            </NavLink>
+          ))}
         </NavLinks>
         <NavRight>
           <DesktopCTA>
-            <Button variant="primary" onClick={() => scrollTo('contact')}>Contact</Button>
+            <Button variant="primary" onClick={() => onNavigate('contact')}>Contact</Button>
           </DesktopCTA>
           <LangToggle>KO/EN</LangToggle>
           <HamburgerButton onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
@@ -249,11 +279,21 @@ export default function Nav() {
       </NavWrapper>
 
       <MobileOverlay $open={mobileOpen}>
-        <MobileLink onClick={() => handleMobileNav('ecosystem')}>Sface</MobileLink>
-        <MobileLink onClick={() => handleMobileNav('solution')}>Solution</MobileLink>
-        <MobileLink onClick={() => handleMobileNav('hardware')}>Hardware</MobileLink>
-        <MobileLink onClick={() => handleMobileNav('portfolio')}>Portfolio</MobileLink>
-        <MobileLink onClick={() => handleMobileNav('contact')}>Contact</MobileLink>
+        {NAV_ITEMS.map(({ label, page }) => (
+          <MobileLink
+            key={page}
+            $active={activePage === page}
+            onClick={() => handleMobileNav(page)}
+          >
+            {label}
+          </MobileLink>
+        ))}
+        <MobileLink
+          $active={activePage === 'contact'}
+          onClick={() => handleMobileNav('contact')}
+        >
+          Contact
+        </MobileLink>
         <MobileBottom>
           <Button variant="primary" onClick={() => handleMobileNav('contact')}>Contact</Button>
           <LangToggle style={{ display: 'block' }}>KO/EN</LangToggle>

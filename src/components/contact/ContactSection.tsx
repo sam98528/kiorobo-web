@@ -272,27 +272,30 @@ export default function ContactSection() {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     const ctx = gsap.context(() => {
-      /* left column: fade in + slide up with scrub */
+      /* left column: fade in + slide up */
       gsap.from(leftRef.current, {
         y: isMobile ? 30 : 60,
         opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: leftRef.current,
           start: 'top 85%',
-          end: 'top 50%',
-          scrub: 1,
+          toggleActions: 'play none none none',
         },
       });
 
-      /* right column (form card): fade in + slide up with slight delay via later start */
+      /* right column (form card): fade in + slide up */
       gsap.from(rightRef.current, {
         y: isMobile ? 30 : 60,
         opacity: 0,
+        duration: 0.8,
+        delay: 0.15,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: rightRef.current,
           start: 'top 88%',
-          end: 'top 50%',
-          scrub: 1,
+          toggleActions: 'play none none none',
         },
       });
     }, wrapperRef);

@@ -137,7 +137,11 @@ const Copyright = styled.span`
   color: rgba(255, 255, 255, 0.15);
 `;
 
-export default function Footer() {
+interface FooterProps {
+  onNavigate?: (page: string) => void;
+}
+
+export default function Footer({ onNavigate }: FooterProps) {
   const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -147,11 +151,12 @@ export default function Footer() {
       gsap.from(footerRef.current, {
         opacity: 0,
         y: 30,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: footerRef.current,
           start: 'top 95%',
-          end: 'top 70%',
-          scrub: 1,
+          toggleActions: 'play none none none',
         },
       });
     }, footerRef);
@@ -175,11 +180,11 @@ export default function Footer() {
 
         <Column2>
           <ColumnLabel>MENU</ColumnLabel>
-          <FooterLink href="#sface">Sface</FooterLink>
-          <FooterLink href="#solution">Solution</FooterLink>
-          <FooterLink href="#hardware">Hardware</FooterLink>
-          <FooterLink href="#portfolio">Portfolio</FooterLink>
-          <FooterLink href="#contact">Contact</FooterLink>
+          <FooterLink as="button" onClick={() => onNavigate?.('sface')}>Sface</FooterLink>
+          <FooterLink as="button" onClick={() => onNavigate?.('solution')}>Solution</FooterLink>
+          <FooterLink as="button" onClick={() => onNavigate?.('hardware')}>Hardware</FooterLink>
+          <FooterLink as="button" onClick={() => onNavigate?.('portfolio')}>Portfolio</FooterLink>
+          <FooterLink as="button" onClick={() => onNavigate?.('contact')}>Contact</FooterLink>
         </Column2>
 
         <Column3>

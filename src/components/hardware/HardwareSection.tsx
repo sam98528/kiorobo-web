@@ -185,7 +185,6 @@ const ProductCard = styled.div`
   border: 1px solid rgba(0,0,0,0.05);
   border-radius: 20px;
   overflow: hidden;
-  opacity: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
@@ -311,7 +310,6 @@ const BentoCard = styled.div<{ $height: number }>`
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  opacity: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 
   &:hover {
@@ -602,11 +600,12 @@ export default function HardwareSection() {
       gsap.from(introRef.current, {
         y: isMobile ? 30 : 60,
         opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: introRef.current,
           start: 'top 85%',
-          end: 'top 50%',
-          scrub: 1,
+          toggleActions: 'play none none none',
         },
       });
 
@@ -619,11 +618,12 @@ export default function HardwareSection() {
             y: isMobile ? 30 : 60,
             opacity: 0,
             scale: 0.97,
+            duration: 0.6,
+            ease: 'power2.out',
             scrollTrigger: {
               trigger: _el,
               start: 'top 85%',
-              end: 'top 45%',
-              scrub: 1,
+              toggleActions: 'play none none none',
             },
           });
         });
@@ -633,11 +633,12 @@ export default function HardwareSection() {
       gsap.from(solutionsIntroRef.current, {
         y: isMobile ? 20 : 40,
         opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: solutionsIntroRef.current,
           start: 'top 85%',
-          end: 'top 55%',
-          scrub: 1,
+          toggleActions: 'play none none none',
         },
       });
 
@@ -646,18 +647,18 @@ export default function HardwareSection() {
         if (!rowRef.current) return;
         const cards = rowRef.current.querySelectorAll('[data-bento-card]');
         if (cards.length === 0) return;
-        Array.from(cards).forEach((_card, _i) => {
-          gsap.from(_card, {
-            y: isMobile ? 20 : 40,
-            opacity: 0,
-            scale: 0.97,
-            scrollTrigger: {
-              trigger: _card,
-              start: 'top 88%',
-              end: 'top 55%',
-              scrub: 1,
-            },
-          });
+        gsap.from(Array.from(cards), {
+          y: isMobile ? 20 : 40,
+          opacity: 0,
+          scale: 0.97,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: rowRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
         });
       });
     }, wrapperRef);

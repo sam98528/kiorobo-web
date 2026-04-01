@@ -114,41 +114,44 @@ export default function SolutionSection() {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     const ctx = gsap.context(() => {
-      // Intro: fade in + slide up with scrub
+      // Intro: fade in + slide up
       gsap.from(introRef.current, {
         y: isMobile ? 30 : 60,
         opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: introRef.current,
           start: 'top 85%',
-          end: 'top 50%',
-          scrub: 1,
+          toggleActions: 'play none none none',
         },
       });
 
-      // Numbers row: fade in with scrub
+      // Numbers row: fade in
       if (numbersRef.current) {
         gsap.from(numbersRef.current, {
           y: isMobile ? 20 : 40,
           opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: numbersRef.current,
             start: 'top 85%',
-            end: 'top 55%',
-            scrub: 1,
+            toggleActions: 'play none none none',
           },
         });
       }
 
-      // Carousel intro: fade in with scrub
+      // Carousel intro: fade in
       gsap.from(carouselIntroRef.current, {
         y: isMobile ? 20 : 40,
         opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: carouselIntroRef.current,
           start: 'top 85%',
-          end: 'top 55%',
-          scrub: 1,
+          toggleActions: 'play none none none',
         },
       });
     }, wrapperRef);

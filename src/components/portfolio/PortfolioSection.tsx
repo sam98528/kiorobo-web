@@ -277,33 +277,34 @@ export default function PortfolioSection() {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     const ctx = gsap.context(() => {
-      /* intro fade-in with scrub */
+      /* intro fade-in */
       gsap.from(introRef.current, {
         y: isMobile ? 30 : 60,
         opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: introRef.current,
           start: 'top 85%',
-          end: 'top 50%',
-          scrub: 1,
+          toggleActions: 'play none none none',
         },
       });
 
       /* case study cards: slide in from right with stagger */
       if (cardsRef.current) {
         const cards = cardsRef.current.querySelectorAll('[data-card]');
-        Array.from(cards).forEach((card) => {
-          gsap.from(card, {
-            x: isMobile ? 0 : 80,
-            y: isMobile ? 30 : 0,
-            opacity: 0,
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 90%',
-              end: 'top 50%',
-              scrub: 1,
-            },
-          });
+        gsap.from(Array.from(cards), {
+          x: isMobile ? 0 : 80,
+          y: isMobile ? 30 : 0,
+          opacity: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: 'top 90%',
+            toggleActions: 'play none none none',
+          },
         });
       }
     }, wrapperRef);

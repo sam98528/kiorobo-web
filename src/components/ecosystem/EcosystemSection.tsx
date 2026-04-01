@@ -170,15 +170,16 @@ export default function EcosystemSection() {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     const ctx = gsap.context(() => {
-      // Intro: fade in + slide up with scrub
+      // Intro: fade in + slide up
       gsap.from(introRef.current, {
         y: isMobile ? 30 : 60,
         opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: introRef.current,
           start: 'top 85%',
-          end: 'top 50%',
-          scrub: 1,
+          toggleActions: 'play none none none',
         },
       });
 
@@ -191,11 +192,12 @@ export default function EcosystemSection() {
         gsap.from(stepEl, {
           y: isMobile ? 30 : 80,
           opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: stepEl,
             start: 'top 85%',
-            end: 'top 40%',
-            scrub: 1,
+            toggleActions: 'play none none none',
           },
         });
 
@@ -207,11 +209,12 @@ export default function EcosystemSection() {
             gsap.from(mockupEl, {
               x: isReversed ? -60 : 60,
               opacity: 0,
+              duration: 0.8,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: stepEl,
-                start: 'top 80%',
-                end: 'top 35%',
-                scrub: 1,
+                start: 'top 85%',
+                toggleActions: 'play none none none',
               },
             });
           }
