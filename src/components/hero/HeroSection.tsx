@@ -1,7 +1,7 @@
 import { useEffect, useRef, Suspense } from 'react';
 import styled from 'styled-components';
 import { ShaderGradientCanvas, ShaderGradient } from 'shadergradient';
-import { gsap, ScrollTrigger } from '../../styles/animations';
+import { gsap } from '../../styles/animations';
 import { Button, ScrollIndicator } from '../common';
 
 const HeroWrapper = styled.section`

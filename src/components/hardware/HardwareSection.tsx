@@ -613,14 +613,14 @@ export default function HardwareSection() {
       // Product cards: stagger from bottom with slight scale
       const productEls = productCardsRef.current.filter(Boolean);
       if (productEls.length > 0) {
-        productEls.forEach((el, i) => {
-          if (!el) return;
-          gsap.from(el, {
+        productEls.forEach((_el, _i) => {
+          if (!_el) return;
+          gsap.from(_el, {
             y: isMobile ? 30 : 60,
             opacity: 0,
             scale: 0.97,
             scrollTrigger: {
-              trigger: el,
+              trigger: _el,
               start: 'top 85%',
               end: 'top 45%',
               scrub: 1,
@@ -646,13 +646,13 @@ export default function HardwareSection() {
         if (!rowRef.current) return;
         const cards = rowRef.current.querySelectorAll('[data-bento-card]');
         if (cards.length === 0) return;
-        Array.from(cards).forEach((card, i) => {
-          gsap.from(card, {
+        Array.from(cards).forEach((_card, _i) => {
+          gsap.from(_card, {
             y: isMobile ? 20 : 40,
             opacity: 0,
             scale: 0.97,
             scrollTrigger: {
-              trigger: card,
+              trigger: _card,
               start: 'top 88%',
               end: 'top 55%',
               scrub: 1,

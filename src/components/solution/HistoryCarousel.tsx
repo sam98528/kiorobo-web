@@ -73,7 +73,6 @@ export default function HistoryCarousel() {
     if (isMobile) return;
 
     const track = trackRef.current;
-    const totalWidth = track.scrollWidth - outerRef.current.offsetWidth;
 
     const ctx = gsap.context(() => {
       gsap.to(track, {
