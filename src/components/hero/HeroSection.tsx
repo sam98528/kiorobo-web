@@ -149,44 +149,13 @@ const KioskCard = styled.div`
 
 const KioskScreen = styled.div`
   flex: 1;
-  background: linear-gradient(135deg, #C4B5FD 0%, #DDD6FE 50%, #FBCFE8 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  overflow: hidden;
 `;
 
-const KioskScreenContent = styled.div`
-  width: 80%;
-  height: 70%;
-  background: rgba(255,255,255,0.3);
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.5);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 20px;
-`;
-
-const KioskScreenIcon = styled.div`
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-`;
-
-const KioskScreenText = styled.span`
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(0,0,0,0.5);
+const ScreenImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const KioskBase = styled.div`
@@ -316,16 +285,7 @@ export default function HeroSection({ onNavigate }: HeroSectionProps) {
           <KioskGlow />
           <KioskCard ref={kioskRef}>
             <KioskScreen>
-              <KioskScreenContent>
-                <KioskScreenIcon>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                    <circle cx="8.5" cy="8.5" r="1.5" />
-                    <polyline points="21 15 16 10 5 21" />
-                  </svg>
-                </KioskScreenIcon>
-                <KioskScreenText>Sface Dock</KioskScreenText>
-              </KioskScreenContent>
+              <ScreenImage src="/images/app-screenshots/sface-app-2.png" alt="Sface App" />
             </KioskScreen>
             <KioskBase>
               <KioskBaseDot />

@@ -21,28 +21,13 @@ const Kiosk = styled.div`
 
 const KioskScreen = styled.div`
   flex: 1;
-  background: linear-gradient(160deg, #BAE6FD 0%, #C4B5FD 50%, #DDD6FE 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 `;
 
-const KioskScreenInner = styled.div`
-  width: 75%;
-  height: 60%;
-  background: rgba(255,255,255,0.35);
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const KioskLabel = styled.span`
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(0,0,0,0.35);
+const ScreenImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const KioskBase = styled.div`
@@ -108,9 +93,7 @@ export default function KioskMockup() {
     <KioskWrapper>
       <Kiosk>
         <KioskScreen>
-          <KioskScreenInner>
-            <KioskLabel>Sface Dock</KioskLabel>
-          </KioskScreenInner>
+          <ScreenImage src="/images/app-screenshots/sface-dock.png" alt="Sface Dock video editor" />
         </KioskScreen>
         <KioskBase>
           <KioskBaseLine />
