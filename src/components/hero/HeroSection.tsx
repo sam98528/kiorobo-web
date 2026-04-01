@@ -132,11 +132,11 @@ const KioskGlow = styled.div`
 `;
 
 const KioskCard = styled.div`
-  width: 300px;
-  height: 460px;
-  background: #FFFFFF;
-  border: 1px solid rgba(0,0,0,0.05);
-  border-radius: 20px;
+  width: 280px;
+  height: 607px;
+  background: #1A1A1A;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 40px;
   overflow: hidden;
   position: relative;
   z-index: 1;
@@ -147,31 +147,30 @@ const KioskCard = styled.div`
   will-change: transform;
 `;
 
+const PhoneNotch = styled.div`
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 24px;
+  background: #000;
+  border-radius: 12px;
+  z-index: 2;
+`;
+
 const KioskScreen = styled.div`
   flex: 1;
   overflow: hidden;
+  border-radius: 32px;
+  margin: 4px;
 `;
 
 const ScreenImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`;
-
-const KioskBase = styled.div`
-  height: 80px;
-  background: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top: 1px solid rgba(0,0,0,0.05);
-`;
-
-const KioskBaseDot = styled.div`
-  width: 32px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(0,0,0,0.08);
+  object-position: center top;
 `;
 
 export default function HeroSection({ onNavigate }: HeroSectionProps) {
@@ -284,12 +283,10 @@ export default function HeroSection({ onNavigate }: HeroSectionProps) {
         <HeroRight>
           <KioskGlow />
           <KioskCard ref={kioskRef}>
+            <PhoneNotch />
             <KioskScreen>
               <ScreenImage src="/images/app-screenshots/sface-app-2.png" alt="Sface App" />
             </KioskScreen>
-            <KioskBase>
-              <KioskBaseDot />
-            </KioskBase>
           </KioskCard>
         </HeroRight>
       </HeroInner>

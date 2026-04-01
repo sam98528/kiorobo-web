@@ -8,11 +8,11 @@ const KioskWrapper = styled.div`
 `;
 
 const Kiosk = styled.div`
-  width: 200px;
-  height: 360px;
-  background: #FFFFFF;
-  border: 1px solid rgba(0,0,0,0.05);
-  border-radius: 16px;
+  width: 220px;
+  height: 477px;
+  background: #1A1A1A;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 8px 40px rgba(0,0,0,0.06);
   display: flex;
@@ -22,12 +22,13 @@ const Kiosk = styled.div`
 const KioskScreen = styled.div`
   flex: 1;
   overflow: hidden;
+  background: #111;
 `;
 
 const ScreenImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 const KioskBase = styled.div`

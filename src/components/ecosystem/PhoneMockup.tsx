@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 const PhoneFrame = styled.div`
-  width: 260px;
-  height: 520px;
-  background: #FFFFFF;
-  border: 1px solid rgba(0,0,0,0.05);
-  border-radius: 36px;
+  width: 280px;
+  height: 607px;
+  background: #1A1A1A;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 40px;
   overflow: hidden;
   box-shadow: 0 8px 40px rgba(0,0,0,0.06);
   display: flex;
@@ -28,12 +28,15 @@ const PhoneNotch = styled.div`
 const PhoneScreen = styled.div`
   flex: 1;
   overflow: hidden;
+  border-radius: 32px;
+  margin: 4px;
 `;
 
 const ScreenImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top;
 `;
 
 export default function PhoneMockup() {
